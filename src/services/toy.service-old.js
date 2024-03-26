@@ -1,9 +1,10 @@
 
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
-import { userService } from './user.service.js'
+import { userService } from './user.service-old.js'
 
 const STORAGE_KEY = 'toyDB'
+let toys = _createToys()
 
 export const toyService = {
     query,
@@ -14,9 +15,15 @@ export const toyService = {
     getDefaultFilter
 }
 
+const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+'Outdoor', 'Battery Powered'] 
+
 function query(filterBy = {}) {
     return storageService.query(STORAGE_KEY)
         .then(toys => {
+            
+            // NEEDS REFACTOR
+
             // if (!filterBy.txt) filterBy.txt = ''
             // if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
             // const regExp = new RegExp(filterBy.txt, 'i')
@@ -48,12 +55,32 @@ function save(toy) {
     }
 }
 
-function getEmptytoy() {
-    return {
-        // vendor: 'Susita-' + (Date.now() % 1000),
-        // price: utilService.getRandomIntInclusive(1000, 9000),
-        // speed: utilService.getRandomIntInclusive(75, 200),
+function getEmptyToy() {
+    return  {
+        _id: utilService.makeId(),
+        name: 'Talking Doll',
+        price: 123,
+        labels: ['Doll', 'Battery Powered', 'Baby'],
+        createdAt: 1631031801011,
+        inStock: true,
+        }
+}
+
+function _createToys() {
+    let toys = utilService.loadFromStorage(STORAGE_KEY)
+    if (!toys || !toys.length) {
+        toys = [
+            getEmptyToy(),
+            getEmptyToy(),
+            getEmptyToy(),
+            getEmptyToy(),
+            getEmptyToy(),
+            getEmptyToy(),
+            getEmptyToy(),
+            getEmptyToy()
+        ]
     }
+    return toys
 }
 
 function getDefaultFilter() {
