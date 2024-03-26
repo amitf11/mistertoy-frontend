@@ -6,8 +6,9 @@ import { store } from "../store.js";
 
 export function loadToys() {
     const filterBy = store.getState().toyModule.filterBy
+    const sortBy = store.getState().toyModule.sortBy
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-    return toyService.query(filterBy)
+    return toyService.query(filterBy, sortBy)
         .then(toys => {
             store.dispatch({ type: SET_TOYS, toys })
         })
@@ -33,7 +34,7 @@ export function removeToy(toyId) {
 
 export function removeToyOptimistic(toyId) {
     store.dispatch({ type: REMOVE_TOY, toyId })
-    return todoService.remove(todoId)
+    return toyService.remove(toyId)
         .then(() => {
             showSuccessMsg('Removed Car!')
         })
@@ -45,7 +46,9 @@ export function removeToyOptimistic(toyId) {
 }
 
 export function saveToy(toy) {
+    console.log('toy:', toy)
     const type = toy._id ? UPDATE_TOY : ADD_TOY
+    console.log('type:', type)
     return toyService.save(toy)
         .then(savedToy => {
             store.dispatch({ type, toy: savedToy })

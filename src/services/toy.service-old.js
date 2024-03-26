@@ -16,22 +16,29 @@ export const toyService = {
 }
 
 const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-'Outdoor', 'Battery Powered'] 
+    'Outdoor', 'Battery Powered']
 
 function query(filterBy = {}) {
+    console.log('filterBy:', filterBy)
     return storageService.query(STORAGE_KEY)
-        .then(toys => {
-            
-            // NEEDS REFACTOR
+    .then(toys => {
+            let updatedToys = toys
 
-            // if (!filterBy.txt) filterBy.txt = ''
-            // if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
-            // const regExp = new RegExp(filterBy.txt, 'i')
-            // return toys.filter(toy =>
-            //     regExp.test(toy.vendor) &&
-            //     toy.price <= filterBy.maxPrice
-            // )
-            return toys
+            if (filterBy.name) {
+                const regExp = new RegExp(filterBy.name, 'i')
+                updatedToys = toys.filter(toy => regExp.test(toy.name))
+            }
+
+            if (filterBy.inStock) {
+                updatedToys = toys.filter(toy => toy.inStock)
+            }
+
+            if (filterBy.inStock === 'false') {
+                updatedToys = toys.filter(toy => !toy.inStock)
+                console.log('updatedToys:', updatedToys)
+            }
+
+            return updatedToys
         })
 }
 
@@ -56,35 +63,79 @@ function save(toy) {
 }
 
 function getEmptyToy() {
-    return  {
-        _id: utilService.makeId(),
-        name: 'Talking Doll',
+    return {
+        name: utilService.makeLorem(2),
         price: 123,
         labels: ['Doll', 'Battery Powered', 'Baby'],
         createdAt: 1631031801011,
         inStock: true,
-        }
+    }
 }
 
 function _createToys() {
     let toys = utilService.loadFromStorage(STORAGE_KEY)
     if (!toys || !toys.length) {
         toys = [
-            getEmptyToy(),
-            getEmptyToy(),
-            getEmptyToy(),
-            getEmptyToy(),
-            getEmptyToy(),
-            getEmptyToy(),
-            getEmptyToy(),
-            getEmptyToy()
+            {
+                _id: 't101',
+                name: 'Talking Doll',
+                price: 123,
+                labels: ['Doll', 'Outdoor'],
+                createdAt: 1631031801011,
+                inStock: true,
+            },
+            {
+                _id: 't102',
+                name: 'Talking Robot',
+                price: 199,
+                labels: ['Robot', 'Battery Powered', 'Puzzle'],
+                createdAt: 1631032801011,
+                inStock: true,
+            },
+            {
+                _id: 't103',
+                name: 'Musical Teddy Bear',
+                price: 79,
+                labels: ['Teddy Bear', 'Battery Powered', 'Outdoor'],
+                createdAt: 1631033801011,
+                inStock: false,
+            },
+            {
+                _id: 't104',
+                name: 'Remote Control Car',
+                price: 149,
+                labels: ['Toy Car', 'On wheels', 'Baby'],
+                createdAt: 1631034801011,
+                inStock: true,
+            },
+            {
+                _id: 't105',
+                name: 'Building Blocks Set',
+                price: 59,
+                labels: ['Building Blocks', 'Outdoor'],
+                createdAt: 1631035801011,
+                inStock: true,
+            },
+            {
+                _id: 't106',
+                name: 'Stuffed Animal Playset',
+                price: 89,
+                labels: ['Stuffed Animals', 'Outdoor'],
+                createdAt: 1631036801011,
+                inStock: true,
+            },
         ]
     }
+    utilService.saveToStorage(STORAGE_KEY, toys)
     return toys
 }
 
 function getDefaultFilter() {
-    // return { txt: '', maxPrice: '' }
+    return { name: '', inStock: true, labels: [] }
+}
+
+function getDefaultSort() {
+    return { date: '', price: '' }
 }
 
 // TEST DATA
