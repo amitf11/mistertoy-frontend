@@ -6,9 +6,6 @@ const toyLabel = toyService.getLabels()
 export function ToyFilter({ onSetFilter, filterBy }) {
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
-    const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-        'Outdoor', 'Battery Powered']
-
     useEffect(() => {
         onSetFilter(filterByToEdit)
     }, [filterByToEdit])

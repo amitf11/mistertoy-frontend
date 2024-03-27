@@ -7,7 +7,7 @@ import { ToyFilter } from '../cmps/ToyFilter.jsx'
 import { ToySort } from '../cmps/ToySort.jsx'
 import { toyService } from '../services/toy.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-import { loadToys, removeToy, setFilterBy, setSortBy } from '../store/actions/toy.actions.js'
+import { loadToys, saveToy, removeToy, setFilterBy, setSortBy } from '../store/actions/toy.actions.js'
 
 export function ToyIndex() {
 
