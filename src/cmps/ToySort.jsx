@@ -1,39 +1,22 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 
-export function ToySort({ onSetSort, sortBy }) {
-	const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
+export function ToySort({ sortBy, onSetSort }) {
 
-	useEffect(() => {
-		onSetSort(sortByToEdit)
-	}, [sortByToEdit])
+    function handleSortChange(by) {
+        const updatedSort = { ...sortBy, by }
+        onSetSort(updatedSort)
+    }
 
-	function handleChange({ target }) {
-		const field = target.name
-		const value = target.value
+    function handleToggleDirection() {
+        const updatedSort = { ...sortBy, asc: !sortBy.asc }
+        console.log("🚀 ~ file: ToySort.jsx:12 ~ handleToggleDirection ~ updatedSort:", updatedSort)
+        onSetSort(updatedSort)
+    }
 
-		if (field === 'dir')
-			setSortByToEdit(prevSort => ({
-				...prevSort,
-				dir: -prevSort.dir,
-			}))
-		else
-			setSortByToEdit(prevSort => ({
-				...prevSort,
-				[field]: value,
-			}))
-	}
-
-	return (
-		<form className="toy-sort">
-			<select className="sort-type" name="type" value={sortByToEdit.type} onChange={handleChange}>
-				<option value={''}>----</option>
-				<option value="createdAt">Date</option>
-				<option value="price">Price</option>
-			</select>
-			<label>
-				<input type="checkbox" name="dir" value={!sortByToEdit.dir === -1} onChange={handleChange} />
-				Descending
-			</label>
-		</form>
-	)
+    return <section className="toy-sort">
+        <h3>Sort toys:</h3>
+        <button onClick={() => handleSortChange('name')}>By name</button>
+        <button onClick={() => handleSortChange('price')}>By price</button>
+        <button onClick={handleToggleDirection}>Change direction {sortBy.asc ? '^' : 'v'}</button>
+    </section>
 }

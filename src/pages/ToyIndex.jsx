@@ -1,25 +1,23 @@
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ToyList } from '../cmps/ToyList.jsx'
 import { ToyFilter } from '../cmps/ToyFilter.jsx'
 import { ToySort } from '../cmps/ToySort.jsx'
-import { toyService } from '../services/toy.service-old.js'
+import { toyService } from '../services/toy.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-import { loadToys, removeToyOptimistic, saveToy, setFilterBy } from '../store/actions/toy.actions.js'
-// import { ADD_TOY_TO_CART } from '../store/reducers/toy.reducer.js'
+import { loadToys, removeToy, setFilterBy, setSortBy } from '../store/actions/toy.actions.js'
 
 export function ToyIndex() {
 
-    const dispatch = useDispatch()
-    const [sortBy, setSortBy] = useState({ type: '', dir: 1 })
+    const sortBy = useSelector(state => state.toyModule.sortBy)
     const toys = useSelector(storeState => storeState.toyModule.toys)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
 
     useEffect(() => {
-        loadToys()
+        loadToys(filterBy, sortBy)
             .catch(err => {
                 showErrorMsg('Cannot load toys!')
             })
@@ -29,12 +27,12 @@ export function ToyIndex() {
         setFilterBy(filterBy)
     }
 
-    function onSetSort(sortBy) {
-        setSortBy(prevSort => ({ ...prevSort, ...sortBy }))
+    function onSetSort(sort) {
+        setSortBy(sort)
     }
 
     function onRemoveToy(toyId) {
-        removeToyOptimistic(toyId)
+        removeToy(toyId)
             .then(() => {
                 showSuccessMsg('Toy removed')
             })
@@ -52,25 +50,6 @@ export function ToyIndex() {
             .catch(err => {
                 showErrorMsg('Cannot add toy')
             })
-    }
-
-    // function onEditToy(toy) {
-    //     const price = +prompt('New price?')
-    //     const toyToSave = { ...toy, price }
-
-    //     saveToy(toyToSave)
-    //         .then((savedToy) => {
-    //             showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
-    //         })
-    //         .catch(err => {
-    //             showErrorMsg('Cannot update toy')
-    //         })
-    // }
-
-    function addToCart(toy) {
-        console.log(`Adding to Cart`)
-        dispatch({ type: ADD_TOY_TO_CART, toy })
-        showSuccessMsg('Added to Cart')
     }
 
     return (
@@ -91,9 +70,6 @@ export function ToyIndex() {
                     ? <ToyList
                         toys={toys}
                         onRemoveToy={onRemoveToy}
-                    // onEditToy={onEditToy}
-                    // addToCart={addToCart}
-
                     />
                     : <div>Loading...</div>
                 }
@@ -102,4 +78,3 @@ export function ToyIndex() {
         </div>
     )
 }
-

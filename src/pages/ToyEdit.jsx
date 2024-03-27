@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
-import { toyService } from "../services/toy.service-old.js"
+import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
 
 
 export function ToyEdit() {
-    const navigate = useNavigate()
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+
+    const navigate = useNavigate()
     const { toyId } = useParams()
 
     useEffect(() => {
@@ -30,25 +31,40 @@ export function ToyEdit() {
         setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }))
     }
 
-    function onSaveToy(ev) {
+    function onSetLabel(label) {
+        const labels = toyToEdit.labels.includes(label) ? toyToEdit.labels.filter(l => l !== label) : [label, ...toyToEdit.labels]
+        setToyToEdit(prevToy => ({ ...prevToy, labels }))
+    }
+
+    function onSave(ev) {
         ev.preventDefault()
-        if (!toyToEdit.price) toyToEdit.price = 1000
-        saveToy(toyToEdit)
+
+        const newToy = {
+            ...toyToEdit,
+            inStock: (toyToEdit.inStock === 'true') ? true : false
+        }
+
+        saveToy(newToy)
             .then(() => {
-                showSuccessMsg('Toy Saved!')
+                showSuccessMsg('Toy saved successfully')
                 navigate('/toy')
             })
             .catch(err => {
-                console.log('Had issues in toy details', err)
-                showErrorMsg('Had issues in toy details')
+                showErrorMsg('Can not save toy, please try again')
             })
     }
+
+    function isInStock() {
+        return toyToEdit.inStock
+    }
+
+    if (!toyToEdit) return <div>Loading...</div>
 
     return (
         <section className="toy-edit">
             <h2>{toyToEdit._id ? 'Edit' : 'Add'} Toy</h2>
 
-            <form onSubmit={onSaveToy} >
+            <form onSubmit={onSave} >
                 <label htmlFor="name">name: </label>
                 <input type="text"
                     name="name"
@@ -65,6 +81,9 @@ export function ToyEdit() {
                     value={toyToEdit.price}
                     onChange={handleChange}
                 />
+                <div>
+                    <MultiSelect onSetLabel={onSetLabel} toyToEdit={toyToEdit} />
+                </div>
 
                 <div>
                     <button>{toyToEdit._id ? 'Save' : 'Add'}</button>

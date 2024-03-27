@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import { LabelSelector } from './LabelSelect.jsx'
+import { toyService } from '../services/toy.service'
+
+const toyLabel = toyService.getLabels()
 
 export function ToyFilter({ onSetFilter, filterBy }) {
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
@@ -12,34 +14,72 @@ export function ToyFilter({ onSetFilter, filterBy }) {
     }, [filterByToEdit])
 
     function handleChange({ target }) {
-        const field = target.name
-        const value = target.type === 'number' ? +target.value : target.value
-        setFilterByToEdit(prevFilter => ({
-            ...prevFilter,
-            [field]: value,
-        }))
+        let { value, type, name: field } = target
+        if (type === 'checkbox') value = target.checked
+        setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [field]: value }))
     }
 
-    function onLabelChange(selectedLabels) {
-
-        setFilterByToEdit(prevFilter => ({
-            ...prevFilter,
-            labels: selectedLabels,
-        }))
+    function onSelectLabels(ev) {
+        const label = ev.target.value
+        let filter = { ...filterByToEdit }
+        if (filter.labels.includes(label)) filter.labels = filter.labels.filter(l => l !== label)
+        else filter.labels.push(label)
+        setFilterByToEdit(filter)
     }
 
-    const { name, inStock } = filterByToEdit
-    return (
-        <form className="toy-filter">
-            <h3>Filter Toys</h3>
-            <select name="inStock" id="inStock" value={inStock || ''} onChange={handleChange}>
-                <option value={''}>All</option>
-                <option value={true}>In Stock</option>
-                <option value={false}>Out of Stock</option>
-            </select>
+    return <div className="filter-container">
+        <form className={'form-filter'}>
+            <label className='filter-label'>
+                <span className='filter-label'>Search</span>
+                <input
+                    value={filterByToEdit.search}
+                    onChange={handleChange}
+                    type="search"
+                    className="search-input"
+                    name="txt" />
+            </label>
+            <label className='filter-label'>
+                <span className='filter-label'>Min-price</span>
+                <input
+                    onChange={handleChange}
+                    type="number"
+                    className="min-price"
+                    name="minPrice" />
+            </label>
+            <label className='filter-label'>
+                <span className='filter-label'>Max-price</span>
+                <input
+                    onChange={handleChange}
+                    type="number"
+                    className="max-price"
+                    name="maxPrice" />
+            </label>
+            <label className='filter-label'>
+                <span className='filter-label'>Filter By</span>
+                <select
+                    onChange={onSelectLabels}
+                    name="labels"
+                    multiple
+                    value={filterByToEdit.labels || []}>
 
-            <input className="filter-input" type="text" id="name" name="name" value={name} placeholder="Enter text here..." onChange={handleChange} />
-            <LabelSelector labels={labels} onLabelChange={onLabelChange} />
+                    <option value=""> All </option>
+                    <>
+                        {toyLabel.map(label => <option key={label} value={label}>{label}</option>)}
+                    </>
+                    
+                </select>
+            </label>
+            <label className='filter-label'>
+                <span className='filter-label'>In stock</span>
+                <select
+                    onChange={handleChange}
+                    name="inStock"
+                    value={filterByToEdit.inStock || ''}>
+                    <option value=""> All </option>
+                    <option value={true}>In stock</option>
+                    <option value={false}>Out of stock</option>
+                </select>
+            </label>
         </form>
-    )
+    </div>
 }
