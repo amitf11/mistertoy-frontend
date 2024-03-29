@@ -1,0 +1,19 @@
+.filter-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-filter>* {
+    margin: 1em;
+}
+
+.toy-sort {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 1em;
+}
+
+.toy-sort button {
+    margin: .5em;
+}

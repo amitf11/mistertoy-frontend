@@ -1,5 +1,7 @@
 .toys-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 40px;
+    justify-content: center;
+    
+    gap: 10px;
 }

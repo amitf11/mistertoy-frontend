@@ -26,7 +26,7 @@ export function LoginSignup() {
     }
 
     return (
-        <div className="login-page">
+        <div className="login-page flex flex-column">
             <LoginForm
                 onLogin={onLogin}
                 isSignup={isSignup}

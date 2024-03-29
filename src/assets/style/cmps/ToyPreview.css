@@ -1,3 +1,15 @@
 .toy-card {
+    text-align: center;
+    padding: .5em;
+    margin: .5em;
     
+    height: 300px;
+    width: 200px;
+
+    border: 1px solid lightgrey;
+    border-radius: 1em;
+}
+
+.toy-card .toy-actions {
+    padding: 0 1.5em .3em;
 }

@@ -1,7 +1,21 @@
 .app-header {
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+    
+    width: 100%;
+    padding: 1em;
+    
     background-color: var(--clr1);
-    color: var(--clr1bg);
-    padding-block: 1em;
+    color: var(--clr2bg);
+}
+
+.header-container {
+    font-size: 1.2em;
+    padding-left: 1em;
+}
+
+.header-container a:hover {
+    color: #f1b74b;
+    font-weight: 600;
 }
 
 .app-nav {
@@ -9,8 +23,36 @@
     gap: 15px;
 }
 
-@media(max-width: 720px) {
-    .app-header {
-        color: var(--clr2bg);
-    }
+.login-form {
+    display: flex;
+    align-items: center;
+}
+
+.login-form input {
+    margin: .5em;
+    padding-left: .5em;
+    line-height: 1.5em;
+    
+    border-radius: .5em;
+    border: none;
+}
+
+.login-form input:first-child {
+    margin: 0;
+}
+
+.login-form button {
+    font-weight: 600;
+    
+
+    margin: .2em;
+    padding: .5em 1.5em;
+
+    background-color: transparent;
+    color: #f1b74b;
+
+    border: 1px solid lightgray;
+    border-radius: 1em;
+
+    cursor: pointer;
 }

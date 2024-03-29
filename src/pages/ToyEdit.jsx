@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
 import { toyService } from "../services/toy.service.js"
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
+import { MultiSelect } from "../cmps/MultiSelect.jsx"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 
 export function ToyEdit() {
@@ -69,7 +70,7 @@ export function ToyEdit() {
                 <input type="text"
                     name="name"
                     id="name"
-                    placeholder="Enter name..."
+                    placeholder={toyToEdit._id ? toyToEdit.name : "Enter name..."}
                     value={toyToEdit.name}
                     onChange={handleChange}
                 />

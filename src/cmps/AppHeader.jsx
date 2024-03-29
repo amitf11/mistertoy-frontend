@@ -31,28 +31,30 @@ export function AppHeader() {
     }
 
     return (
-        <header className="app-header full main-layout">
-            <section className="header-container">
-                <h1>Mr.Toy</h1>
-                <nav className="app-nav">
-                    <NavLink to="/" >Home</NavLink>
-                    <NavLink to="/about" >About</NavLink>
-                    <NavLink to="/toy" >Toys</NavLink>
-                    <a onClick={onToggleCart} href="#">🛒 Cart</a>
+        <>
+            <header className="app-header full main-layout flex justify-between">
+                <section className="header-container">
+                    <h1>Mr.Toy</h1>
+                    <nav className="app-nav">
+                        <NavLink to="/" >Home</NavLink>
+                        <NavLink to="/about" >About</NavLink>
+                        <NavLink to="/toy" >Toys</NavLink>
+                        <a onClick={onToggleCart} href="#">🛒 Cart</a>
 
-                </nav>
-            </section>
-            {user ? (
-                < section >
-                    <span to={`/user/${user._id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
-                    <button onClick={onLogout}>Logout</button>
-                </ section >
-            ) : (
-                <section>
-                    <LoginSignup  />
+                    </nav>
                 </section>
-            )}
+                {user ? (
+                    <section className='login-form'>
+                        <span to={`/user/${user._id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
+                        <button onClick={onLogout}>Logout</button>
+                    </ section >
+                ) : (
+                    <section className='login-form'>
+                        <LoginSignup />
+                    </section>
+                )}
+            </header>
             <UserMsg />
-        </header>
+        </>
     )
 }

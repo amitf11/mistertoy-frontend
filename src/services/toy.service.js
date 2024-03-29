@@ -42,7 +42,7 @@ function getEmptyToy() {
         name: '',
         price: '',
         labels: [],
-        inStock: 'true'
+        inStock: true
     }
 }
 
@@ -51,7 +51,7 @@ function getDefaultFilterBy() {
         txt: '',
         maxPrice: Infinity,
         labels: [],
-        inStock: null
+        inStock: 'all'
     }
 }
 

@@ -23,9 +23,10 @@ export function ToyFilter({ onSetFilter, filterBy }) {
         else filter.labels.push(label)
         setFilterByToEdit(filter)
     }
+    console.log('filterByToEdit:', filterByToEdit)
 
     return <div className="filter-container">
-        <form className={'form-filter'}>
+        <form className='form-filter'>
             <label className='filter-label'>
                 <span className='filter-label'>Search</span>
                 <input
@@ -72,7 +73,7 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                     onChange={handleChange}
                     name="inStock"
                     value={filterByToEdit.inStock || ''}>
-                    <option value=""> All </option>
+                    <option value={'all'}> All </option>
                     <option value={true}>In stock</option>
                     <option value={false}>Out of stock</option>
                 </select>

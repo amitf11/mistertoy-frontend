@@ -17,7 +17,7 @@ export function LoginForm({ onLogin, isSignup }) {
     }
 
     return (
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form flex flex-column" onSubmit={handleSubmit}>
             <input
                 type="text"
                 name="username"
