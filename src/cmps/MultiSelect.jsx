@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { toyService } from '../services/toy.service'
 
 export function MultiSelect({ onSetLabel, toyToEdit }) {
 
-  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false)
   const labels = toyService.getLabels()
+  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false)
 
 
   return <section className="multi-select" onMouseLeave={() => setIsOptionsModalOpen(false)}>

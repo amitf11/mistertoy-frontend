@@ -4,8 +4,6 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
 
-
-
 export function ToyPreview({ toy, onRemoveToy }) {
     const chipColors = ['info', 'success', 'warning', 'secondary']
     return (
@@ -17,10 +15,12 @@ export function ToyPreview({ toy, onRemoveToy }) {
             <Stack spacing={1} alignItems="center">
                 <Stack direction="row" spacing={1}>
                     {toy.labels.map((label, idx) =>
-                        <Chip label={label}
-                        size="small"
-                        sx={{display:'flex', width: 'fit-content'}}
-                        color={chipColors[idx]}/>
+                        <Chip
+                            key={idx}
+                            label={label}
+                            size="small"
+                            sx={{ display: 'flex', width: 'fit-content' }}
+                            color={chipColors[idx]} />
                     )}
                 </Stack>
             </Stack>

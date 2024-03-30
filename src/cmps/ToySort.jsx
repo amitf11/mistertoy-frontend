@@ -9,7 +9,6 @@ export function ToySort({ sortBy, onSetSort }) {
 
     function handleToggleDirection() {
         const updatedSort = { ...sortBy, asc: !sortBy.asc }
-        console.log("🚀 ~ file: ToySort.jsx:12 ~ handleToggleDirection ~ updatedSort:", updatedSort)
         onSetSort(updatedSort)
     }
 

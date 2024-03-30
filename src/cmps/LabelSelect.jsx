@@ -30,7 +30,7 @@ export function LabelSelect({ labels, setFilterByToEdit }) {
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
-        setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, [labels]: selectedLabel }))
+        setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, labels: value }))
     };
 
     return (
