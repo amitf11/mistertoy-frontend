@@ -14,6 +14,7 @@ export function ToyDetails() {
     useEffect(() => {
         loadToy()
     })
+    console.log(toy)
 
     function loadToy() {
         toyService.getById(toyId)
@@ -28,7 +29,7 @@ export function ToyDetails() {
     return (
         <div className="toy-details">
             <h2>Name: <span>{toy.name}</span></h2>
-            <h2>Price: <span>{toy.price}</span></h2>
+            <h2>Price: <span>${toy.price}</span></h2>
             <h2>labels: <span>{toy.labels.join(' | ')}</span></h2>
             <h2>Created at: <span>{toy.createdAt}</span></h2>
             <h2>In Stock: <span>{(toy.inStock) ? 'yes' : 'no'}</span></h2>

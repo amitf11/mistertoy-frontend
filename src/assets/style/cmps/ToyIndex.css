@@ -1,0 +1,13 @@
+.index-title-container {
+    width: 98%;
+    transform: translateX(1%);
+}
+
+.index-add-btn {
+    font-size: 1.2em;
+    padding: .4em;
+
+    border-radius: .3em;
+    border: 2px solid lightblue;
+}
+

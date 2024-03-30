@@ -54,7 +54,10 @@ export function ToyIndex() {
 
     return (
         <div>
-            <h3>Toys App</h3>
+            <div className='index-title-container flex justify-between align-center'>
+                <h1 className='index-title'>Our Toys</h1>
+                <Link to="/toy/edit" className='index-add-btn'>Add Toy</Link>
+            </div>
             <main>
                 <ToyFilter
                     filterBy={filterBy}
@@ -64,8 +67,7 @@ export function ToyIndex() {
                     onSetSort={onSetSort}
                     sortBy={sortBy} />
 
-                <Link to="/toy/edit">Add Toy</Link>
-                <button className='add-btn' onClick={onAddToy}>Add Random Toy</button>
+
                 {!isLoading
                     ? <ToyList
                         toys={toys}

@@ -26,19 +26,17 @@ export function LoginSignup() {
     }
 
     return (
-        <div className="login-page flex flex-column">
+        <div className="login-page flex flex-column align-center">
             <LoginForm
                 onLogin={onLogin}
                 isSignup={isSignup}
             />
-            <div className="btns">
-                <a href="#" onClick={() => setIsSignUp(!isSignup)}>
-                    {isSignup ?
-                        'Already a member? Login' :
-                        'New user? Signup here'
-                    }
-                </a >
-            </div>
+            <a href="#" onClick={() => setIsSignUp(!isSignup)}>
+                {isSignup ?
+                    'Already a member? Login' :
+                    'New user? Signup here'
+                }
+            </a >
         </div >
     )
 }
