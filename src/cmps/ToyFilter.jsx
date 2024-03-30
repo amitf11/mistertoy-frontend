@@ -1,5 +1,16 @@
 import { useState, useEffect } from 'react'
+
+import { LabelSelect } from './LabelSelect'
 import { toyService } from '../services/toy.service'
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
 
 const toyLabel = toyService.getLabels()
 
@@ -23,11 +34,25 @@ export function ToyFilter({ onSetFilter, filterBy }) {
         else filter.labels.push(label)
         setFilterByToEdit(filter)
     }
-    console.log('filterByToEdit:', filterByToEdit)
 
     return <div className="filter-container">
-        <form className='form-filter'>
-            <label className='filter-label'>
+        <form className='form-filter flex flex-column align-center'>
+            <div className='name-instock-container flex justify-between align-center'>
+                <Box
+                    component="form"
+                    sx={{
+                        '& > :not(style)': { m: 1, width: '30ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField label="Name" variant="outlined"
+                        value={filterByToEdit.search}
+                        onChange={handleChange}
+                        name="txt" />
+                </Box>
+                
+                {/* <label className='filter-label'>
                 <span className='filter-label'>Search</span>
                 <input
                     value={filterByToEdit.search}
@@ -35,8 +60,8 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                     type="search"
                     className="search-input"
                     name="txt" />
-            </label>
-            <label className='filter-label'>
+            </label> */}
+                {/* <label className='filter-label'>
                 <span className='filter-label'>Min-price</span>
                 <input
                     onChange={handleChange}
@@ -51,8 +76,8 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                     type="number"
                     className="max-price"
                     name="maxPrice" />
-            </label>
-            <label className='filter-label'>
+            </label> */}
+                {/* <label className='filter-label'>
                 <span className='filter-label'>Filter By</span>
                 <select
                     onChange={onSelectLabels}
@@ -66,18 +91,23 @@ export function ToyFilter({ onSetFilter, filterBy }) {
                     </>
                     
                 </select>
-            </label>
-            <label className='filter-label'>
-                <span className='filter-label'>In stock</span>
-                <select
-                    onChange={handleChange}
-                    name="inStock"
-                    value={filterByToEdit.inStock || ''}>
-                    <option value={'all'}> All </option>
-                    <option value={true}>In stock</option>
-                    <option value={false}>Out of stock</option>
-                </select>
-            </label>
-        </form>
+            </label> */}
+
+                <FormControl sx={{ minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-label">In-Stock</InputLabel>
+                    <Select
+                        label="in-Stock"
+                        name="inStock"
+                        onChange={handleChange}
+                        value={String(filterByToEdit.inStock) || ''}
+                    >
+                        <MenuItem value={'all'}> All </MenuItem>
+                        <MenuItem value={true}>In stock</MenuItem>
+                        <MenuItem value={false}>Out of stock</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
+            <LabelSelect labels={toyLabel} setFilterByToEdit={setFilterByToEdit} filterByToEdit={filterByToEdit} />
+        </form >
     </div>
 }

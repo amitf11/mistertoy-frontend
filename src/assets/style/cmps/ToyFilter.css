@@ -3,8 +3,13 @@
     justify-content: center;
 }
 
+.name-instock-container {
+    padding-right: 8px;
+    width: 100%;
+}
+
 .form-filter>* {
-    margin: 1em;
+    display: flex;
 }
 
 .toy-sort {
@@ -16,4 +21,8 @@
 
 .toy-sort button {
     margin: .5em;
+}
+
+.label-select {
+    width: 100%;
 }
